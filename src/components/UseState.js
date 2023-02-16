@@ -1,27 +1,32 @@
 import React from 'react';
-import { Typography, TextField, Button, Box } from '@mui/material';
+import { Typography, TextField, Button, Grid, Box } from '@mui/material';
 
 function UseState() {
-
-
   return (
-    <Box>
-      <Typography variant="h5">Eliminar UseState</Typography>
-
-      <Typography variant="body1">
-        Por favor, escribe el código de seguridad.
-      </Typography>
-
-      <TextField
-        id="security-code"
-        label="Código de seguridad"
-        variant="outlined"
-        placeholder="Código de seguridad"
-      />
-
-      <Button variant="contained">
-        Comprobar
-      </Button>
+    <Box sx={{ my: 4 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h5">Eliminar UseState</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1">
+            Por favor, escribe el código de seguridad.
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={8} md={6}>
+          <TextField
+            id="security-code"
+            label="Código de seguridad"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4} md={3} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Button variant="contained" fullWidth sx={{ height: '100%' }} style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}>
+            Comprobar
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
