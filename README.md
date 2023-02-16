@@ -1,5 +1,5 @@
 <h1 align="center">
-Formik-Signup
+Security Codes
 </h1>
 Project to practice professional state management with ReactJS
 
