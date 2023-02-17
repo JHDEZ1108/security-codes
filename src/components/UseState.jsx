@@ -4,27 +4,43 @@ import { Typography, TextField, Button, Grid, Box } from '@mui/material';
 const SECURITY_CODE = 'contraseña';
 
 function UseState() {
-  const [value, setValue] = React.useState('');
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [state, setState] = React.useState({
+    value: '',
+    error: false,
+    loading: false
+  });
+
+  // const [value, setValue] = React.useState('');
+  // // eslint-disable-next-line no-unused-vars
+  // const [error, setError] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     setTimeout(() => {
-      if(loading) {
+      if(state.loading) {
         console.log('Haciendo la validación');
-        if(value === SECURITY_CODE){
-          setLoading(false);
-          setError(false);
+        if(state.value === SECURITY_CODE){
+          setState({
+            ...state,
+            loading: false,
+            error: false
+          });
+          // setLoading(false);
+          // setError(false);
         }else{
-          setError(true);
-          setLoading(false);
+          setState({            
+            ...state,
+            loading: false,
+            error: true
+          });
+          // setError(true);
+          // setLoading(false);
         }
         console.log('Terminando la validación');
       }
     }, 3000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, [state.loading]);
   
   return (
     <Box sx={{ my: 4 }}>
@@ -37,14 +53,14 @@ function UseState() {
             Por favor, escribe el código de seguridad.
           </Typography>
         </Grid>
-        {(error && !loading ) && (
+        {(state.error && !state.loading ) && (
           <Grid item xs={12}>
           <Typography variant="caption" color="error">
             Error: Código incorrecto
           </Typography>
           </Grid>
         )}
-        {loading && (
+        {state.loading && (
           <Grid item xs={12}>
           <Typography variant="caption" color="info">
             Cargando...
@@ -56,9 +72,10 @@ function UseState() {
             id="security-code"
             label="Código de seguridad"
             variant="outlined"
-            value={value}
+            value={state.value}
             onChange={ (event) => {
-              setValue(event.target.value)
+              setState({...state, value: event.target.value});
+              // setValue(event.target.value)
             }}
             fullWidth
           />
@@ -68,8 +85,10 @@ function UseState() {
             variant="contained" 
             fullWidth sx={{ height: '100%' }} 
             style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}
-            onClick={() => setLoading(!loading)}
-          >
+            onClick={() => 
+              setState({ ...state, loading: true })
+              }
+            >
             Comprobar
           </Button>
         </Grid>
