@@ -17,27 +17,56 @@ function UseState() {
   // const [error, setError] = React.useState(false);
   // const [loading, setLoading] = React.useState(false);
 
+  const onConfirm = () => {
+    setState({
+      ...state,
+      loading: false,
+      error: false,
+      confirmed: true
+    });
+  };
+  
+  const onError = () => {
+    setState({            
+      ...state,
+      loading: false,
+      error: true
+    });
+  };
+  
+  const onWrite = (newValue) => {
+    setState({...state, value: newValue });
+  };
+  
+  const onCheck = () => {
+    setState({ ...state, loading: true })
+  };
+  
+  const onDelete = () => {
+    setState({
+      ...state,
+      deleted: true,
+      value:''
+    });
+  };
+  
+  const onReset = () => {
+    setState({
+      ...state,
+      confirmed: false,
+      deleted: false,
+      value:''
+    });
+  };
+  
   React.useEffect(() => {
     setTimeout(() => {
       if(state.loading) {
         console.log('Haciendo la validación');
         if(state.value === SECURITY_CODE){
-          setState({
-            ...state,
-            loading: false,
-            error: false,
-            confirmed: true
-          });
-          // setLoading(false);
-          // setError(false);
+          onConfirm();
         }else{
-          setState({            
-            ...state,
-            loading: false,
-            error: true
-          });
-          // setError(true);
-          // setLoading(false);
+          onError();
         }
         console.log('Terminando la validación');
       }
@@ -78,8 +107,7 @@ function UseState() {
               variant="outlined"
               value={state.value}
               onChange={ (event) => {
-                setState({...state, value: event.target.value});
-                // setValue(event.target.value)
+                onWrite(event.target.value);
               }}
               fullWidth
             />
@@ -90,7 +118,7 @@ function UseState() {
               fullWidth sx={{ height: '100%' }} 
               style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}
               onClick={() => 
-                setState({ ...state, loading: true })
+                  onCheck()
                 }
               >
               Comprobar
@@ -122,11 +150,7 @@ function UseState() {
                   variant="contained"
                   color="warning"
                   onClick={() => {
-                    setState({
-                      ...state,
-                      deleted: true,
-                      value:''
-                    });
+                    onDelete();
                   }}
                 >
                   Si, eliminar
@@ -137,11 +161,7 @@ function UseState() {
                   variant="contained"
                   style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}
                   onClick={() => {
-                    setState({
-                      ...state,
-                      confirmed: false,
-                      value:''
-                    });
+                    onReset();
                   }}
                 >
                   No, me arrepentí
@@ -173,12 +193,7 @@ function UseState() {
             variant="contained"
             style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}
             onClick={() => {
-              setState({
-                ...state,
-                confirmed: false,
-                deleted: false,
-                value:''
-              });
+              onReset();
             }}
           >
             Resetear, volver atrás
