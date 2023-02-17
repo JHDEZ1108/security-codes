@@ -1,7 +1,11 @@
 import React from 'react';
 import { Typography, TextField, Button, Grid, Box } from '@mui/material';
 
+const SECURITY_CODE = 'contraseña';
+
 function UseState() {
+  const [value, setValue] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -9,10 +13,17 @@ function UseState() {
     setTimeout(() => {
       if(loading) {
         console.log('Haciendo la validación');
-        setLoading(false);
+        if(value === SECURITY_CODE){
+          setLoading(false);
+          setError(false);
+        }else{
+          setError(true);
+          setLoading(false);
+        }
         console.log('Terminando la validación');
       }
     }, 3000)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
   
   return (
@@ -26,7 +37,7 @@ function UseState() {
             Por favor, escribe el código de seguridad.
           </Typography>
         </Grid>
-        {error && (
+        {(error && !loading ) && (
           <Grid item xs={12}>
           <Typography variant="caption" color="error">
             Error: Código incorrecto
@@ -45,6 +56,10 @@ function UseState() {
             id="security-code"
             label="Código de seguridad"
             variant="outlined"
+            value={value}
+            onChange={ (event) => {
+              setValue(event.target.value)
+            }}
             fullWidth
           />
         </Grid>
