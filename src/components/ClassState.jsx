@@ -1,13 +1,34 @@
 import React from 'react';
 import { Typography, TextField, Button, Grid, Box } from '@mui/material';
+import { Loading } from './Loading';
 
 class ClassState extends React.Component {
   constructor(props){
   super(props);
     this.state = {
       error: false,
+      loading: false,
     }
   }
+  
+  componentDidUpdate(){
+    
+    console.log('Actualización');
+    
+    if(!!this.state.loading){
+      setTimeout(() => {
+      if(this.state.loading) {
+        console.log('Haciendo la validación');
+        this.setState({loading: false});
+        console.log('Terminando la validación');
+      }
+      }, 3000);
+    }
+  }
+  componentWillUnmount(){
+    console.log("componentWillUnmount");
+  }
+  
 
   render() {
     return (
@@ -28,6 +49,9 @@ class ClassState extends React.Component {
           </Typography>
           </Grid>
         )}
+        {this.state.loading && (
+          <Loading />
+        )}
           <Grid item xs={12} sm={8} md={6}>
             <TextField
               id="security-code"
@@ -41,9 +65,7 @@ class ClassState extends React.Component {
             variant="contained" fullWidth 
             sx={{ height: '100%' }} 
             style={{ backgroundColor: '#AEC6CF', color: '#FFF' }}
-            onClick={() => 
-                      this.setState(prevState => ({ error: !prevState.error }))
-                    }
+            onClick={ () => this.setState({ loading: true }) }
           >
             Comprobar
           </Button>
